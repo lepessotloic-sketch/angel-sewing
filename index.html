@@ -225,9 +225,10 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rose);outline-of
 .ec-grid img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
 .ec-grid figure:hover img{transform:scale(1.05)}
 /* ATELIER */
-.at-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:240px;gap:12px}
+.at-grid{display:grid;grid-template-columns:repeat(5,1fr);grid-auto-rows:240px;gap:12px}
 .at-grid figure{border-radius:3px;overflow:hidden;background:var(--bg2)}
 .at-grid .big{grid-column:span 2;grid-row:span 2}
+.at-grid .haut{grid-row:span 2}
 .at-grid img{width:100%;height:100%;object-fit:cover}
 /* RETOUCHE */
 .retouche{background:var(--bg2)}
@@ -646,6 +647,7 @@ label{font:500 .7rem Jost,Inter,sans-serif;letter-spacing:.14em;text-transform:u
     </div>
     <div class="at-grid reveal">
       <figure class="big"><img src="img/mini/at-robe-blanche.jpg" alt="Robe blanche en cours de confection sur mannequin" loading="lazy"></figure>
+      <figure class="haut"><img src="img/mini/sw-gants.jpg" alt="Gants matelassés de la Forgeronne, cousus à l'atelier" loading="lazy"></figure>
       <figure><img src="img/mini/at-dentelle.jpg" alt="Dentelle cousue à la main" loading="lazy"></figure>
       <figure><img src="img/mini/at-pinces.jpg" alt="Montage d'un col avec des pinces" loading="lazy"></figure>
       <figure><img src="img/mini/at-applique.jpg" alt="Applique brodée en préparation" loading="lazy"></figure>
@@ -798,7 +800,7 @@ const CAT={
     ["sw-officier-blanc","Officier impérial, uniforme blanc","empire"],["sw-officier-trone","Officier impérial custom, uniforme grenat","custom"],["sw-officier-bleu","Officier impérial, uniforme bleu","empire"],["sw-officier-vert","Officier impérial, uniforme gris-vert","empire"],
     ["sw-officier-imperial","Officier impérial","empire"],["sw-officier-1","Officier impérial, uniforme","empire"],["sw-officier-2","Officier impérial, en pied","empire"],["sw-officier-casque","Officier impérial, tenue de terrain","empire"],["sw-officier-gris","Officier impérial, uniforme gris","empire"],
     ["sg1-casquette","Casquette d'officier impérial","empire"],["sw-groupe","Officiers impériaux en convention","empire"],
-    ["sw-hoth-soldat","Soldat Rebel de Hoth","rebelles"],["sw-hoth-officier","Officier Rebel de Hoth","rebelles"],["sw-hoth-technicien","Rebel de Hoth","rebelles"],["sw-hoth-pilote","Rebels de Hoth et pilote","rebelles"],["sw-gants","Les gants de la Forgeronne","mando"],["sm-tenue-capuche","Tenue à capuche brodée","rebelles"],
+    ["sw-hoth-soldat","Soldat Rebel de Hoth","rebelles"],["sw-hoth-officier","Officier Rebel de Hoth","rebelles"],["sw-hoth-technicien","Rebel de Hoth","rebelles"],["sw-hoth-pilote","Rebels de Hoth et pilote","rebelles"],["sm-tenue-capuche","Tenue à capuche brodée","rebelles"],
     ["sw-amidala-1","Reine Amidala, robe du trône","autres"],["sw-amidala-2","Reine Amidala","autres"],["sw-amidala-3","Reine Amidala, de face","autres"],["sw-mando-arbre","Mandalorian","mando"],["sw-mando-duo","Mandalorians à bord","mando"],["sw-mandalorien","Mandalorian : les parties textiles","mando"]]},
   "Création sur mesure":{intro:"Robes d'inspiration Renaissance ou d'après-guerre, corsets, tenues de scène : vos envies, cousues sur vos mesures.",items:[
     ["sm-robe-rose","Robe d'inspiration XVIIIᵉ"],["sm-robe-dentelle","Robe à corset et dentelles"],["sm-robe-sarcelle","Robe à corset lacé"],
