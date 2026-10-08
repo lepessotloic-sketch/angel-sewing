@@ -633,7 +633,7 @@ label{font:500 .7rem Jost,Inter,sans-serif;letter-spacing:.14em;text-transform:u
       <h2>Vos envies, cousues sur vos mesures.</h2>
       <p>Robes d'inspiration Renaissance ou d'après-guerre, corsets, tenues de scène. Touchez une photo pour l'agrandir.</p>
     </div>
-    <div class="gallery" id="gallery2"></div>
+    <div class="gallery grille" id="gallery2"></div>
   </div>
 </section>
 
@@ -788,26 +788,15 @@ document.querySelectorAll("img[data-logo]").forEach(i=>i.src=LOGO);
 const U='img/';
 const CAT={
   "Stargate":{intro:"Plus de 100 vestes Stargate, 100 % screen-accurate : je les réalise d'après des vestes originales de la série, une garantie de qualité et de respect de l'œuvre. Je peux faire les vestes des trois séries, SG-1, Atlantis (SGA) et Universe (SGU), ainsi que les pantalons sur demande, et des tenues custom qui ouvrent l'univers Stargate à d'autres possibilités. Je suis la seule en Europe à les confectionner.",groups:[["sg1","SG-1"],["sga","Atlantis"],["sgu","Universe"],["custom","Créations custom"]],items:[
-    ["sg-veste-foret-1","Veste camouflage forêt","sg1"],["sg-veste-kaki-1","Veste kaki, avec ses écussons","sg1"],
-    ["sg-veste-desert-2","Veste camouflage désert, écussons d'épaule","sg1"],["sg-veste-kaki-dos","Veste kaki","sg1"],["sg-veste-grise-2","Veste grise","sg1"],
-    ["sg-detail-ecussons","Écussons SG-1 et Air Force","sg1"],["sg-detail-epaule","Écusson de l'épaule","sg1"],["sg-detail-col","Patte de col boutonnée","sg1"],
-    ["sga-shooting-1","Uniforme gris et bordeaux","sga"],["sga-shooting-2","En extérieur","sga"],["sga-bordeaux-face","Veste grise et bordeaux","sga"],
-    ["sga-noire-face","Veste grise et noire","sga"],["sga-noire-drapeau","Drapeau américain","sga"],
-    ["sga-bordeaux-plat","Veste grise et bordeaux","sga"],["sga-bordeaux-dos","Veste grise et bordeaux","sga"],["sga-noire-dos","Veste grise et noire","sga"],["sg-atlantis-2","Écusson de manche","sga"],["sga-pantalon","Le pantalon, sur demande","sga"],
-    ["sgu-young-2","Veste du colonel Young","sgu"],["sgu-icarus","Veste, écusson Icarus","sgu"],["sgu-frampton","Bande nominative et insignes","sgu"],["sgu-tissu","Le tissu de près","sgu"],
-    ["sg1-porte-desert","Tenue custom, devant la Porte des étoiles","custom"]]},
-  "Star Wars":{intro:"Costumes réalisés en collaboration avec la Rebel Legion. Je réalise uniquement les parties textiles (les « softs ») et je collabore avec d'autres artisans pour le travail du cuir et les pièces d'armure.",groups:[["empire","L'Empire"],["rebelles","Rebels"],["mando","Mandalorian"],["autres","Autres personnages"],["custom","Créations custom"]],items:[
+    ["sg-veste-foret-1","Veste camouflage forêt","sg1"],["sg-veste-kaki-1","Veste olive, avec ses écussons","sg1"],["sg-veste-kaki-dos","Veste olive","sg1"],["sg-detail-ecussons","Écussons SG-1 et Air Force","sg1"],["sg-detail-epaule","Écusson de l'épaule","sg1"],["sg-detail-col","Patte de col boutonnée","sg1"],["sg-veste-desert-2","Veste camouflage désert, écussons d'épaule","sg1"],["sg-veste-grise-2","Veste grise","sg1"],["sga-shooting-1","Uniforme gris et bordeaux","sga"],["sga-shooting-2","En extérieur","sga"],["sga-bordeaux-face","Veste grise et bordeaux","sga"],["sga-bordeaux-dos","Veste grise et bordeaux","sga"],["sga-bordeaux-plat","Veste grise et bordeaux","sga"],["sga-noire-face","Veste grise et noire","sga"],["sga-noire-dos","Veste grise et noire","sga"],["sga-noire-drapeau","Drapeau américain","sga"],["sg-atlantis-2","Écusson de manche","sga"],["sga-pantalon","Le pantalon, sur demande","sga"],["sgu-young-2","Veste du colonel Young","sgu"],["sgu-icarus","Veste, écusson Icarus","sgu"],["sgu-frampton","Bande nominative et insignes","sgu"],["sgu-tissu","Le tissu de près","sgu"],["sg1-porte-desert","Tenue custom, devant la Porte des étoiles","custom"]]},
+  "Star Wars":{intro:"Costumes réalisés en collaboration avec la Rebel Legion et la 501st. Je réalise uniquement les parties textiles (les « softs ») et je collabore avec d'autres artisans pour le travail du cuir et les pièces d'armure. Différentes gammes de tissus vous seront proposées.",groups:[["empire","L'Empire"],["rebelles","Rebels"],["mando","Mandalorian"],["autres","Autres personnages"],["custom","Créations custom"]],items:[
     ["sw-officier-blanc","Officier BSI","empire"],["sw-officier-trone","Officier impérial custom, uniforme grenat","custom"],["sw-officier-bleu","Officier sécurité du Sénat","empire"],["sw-officier-vert","Officier impérial, uniforme olive","empire"],
     ["sw-officier-imperial","Officier impérial","empire"],["sw-officier-1","Officier impérial, uniforme","empire"],["sw-officier-2","Officier impérial","empire"],["sw-officier-casque","Officier impérial, tenue de terrain","empire"],["sw-officier-gris","Officier impérial, uniforme gris","empire"],
     ["sg1-casquette","Casquette d'officier impérial","empire"],["sw-groupe","Officiers impériaux en convention","empire"],
     ["sw-hoth-soldat","Soldat Rebel de Hoth","rebelles"],["sw-hoth-officier","Rebel de Hoth","rebelles"],["sw-hoth-technicien","Officier Rebel de Hoth","rebelles"],["sw-hoth-pilote","Rebels de Hoth et pilote","rebelles"],["sm-tenue-capuche","Gardien du Temple","autres"],
     ["sw-amidala-1","Reine Amidala, robe du trône","autres"],["sw-amidala-2","Reine Amidala","autres"],["sw-amidala-3","Reine Amidala","autres"],["sw-mando-arbre","Mandalorian","mando"],["sw-mando-duo","Mandalorians à bord","mando"],["sw-mandalorien","Mandalorian : les parties textiles","mando"]]},
   "Création sur mesure":{intro:"Robes d'inspiration Renaissance ou d'après-guerre, corsets, tenues de scène : vos envies, cousues sur vos mesures.",items:[
-    ["sm-robe-rose","Robe d'inspiration XVIIIᵉ"],["sm-robe-dentelle","Robe à corset et dentelles"],["sm-robe-sarcelle","Robe à corset lacé"],
-    ["sm-robe-1940","Robe d'inspiration années 40"],["sm-jupe-annees-50","Tenue d'inspiration années 50"],
-    ["sm-robe-retro","Robe rétro"],
-    ["sm-ombrelle","Tenue rétro et ombrelle"],["sm-robe-dentelle-2","Robe à dentelles"],
-    ["sm-robe-bleue","Robe de bal bleue"],["sm-pere-noel","Costume de Père Noël"],["sm-tunique-blanche","Tunique blanche et rouge"]]}
+    ["sm-robe-rose","Robe d'inspiration XVIIIᵉ"],["sm-robe-dentelle","Robe à corset et dentelles"],["sm-robe-dentelle-2","Robe à dentelles"],["sm-robe-sarcelle","Robe à corset lacé"],["sm-robe-bleue","Robe de bal bleue"],["sm-robe-1940","Robe d'inspiration années 40"],["sm-jupe-annees-50","Tenue d'inspiration années 50"],["sm-robe-retro","Robe rétro"],["sm-ombrelle","Tenue rétro et ombrelle"]]}
 };
 const SURMESURE=CAT["Création sur mesure"].items;delete CAT["Création sur mesure"];
 let mainItems=[];
