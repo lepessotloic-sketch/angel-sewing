@@ -423,7 +423,7 @@ form button[disabled]{opacity:.7;cursor:progress!important}
 #fil .trace{fill:none;stroke:url(#fil-grad);stroke-width:2.2;stroke-linecap:round;opacity:.14}
 #fil .thread{fill:none;stroke:url(#fil-grad);stroke-width:2.4;stroke-linecap:round}
 #needle{transition:opacity .3s}
-@media (max-width:900px){#fil .thread{stroke-width:2}#fil .trace{display:none}}
+@media (max-width:900px),(pointer:coarse){#fil{display:none}}
 
 .logo-svg{display:block;height:58px;width:auto;transition:filter .5s}
 [data-theme="dark"] .logo-svg{filter:invert(1) brightness(1.05)}
@@ -866,8 +866,10 @@ const hd=document.getElementById('top');addEventListener('scroll',()=>hd.classLi
 /* Fil rouge : il se coud au fil du défilement, l'aiguille en tête */
 const fil=document.getElementById('fil'),fp=document.getElementById('fil-path'),ft=document.getElementById('fil-trace'),needle=document.getElementById('needle');
 const calme=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const filActif=()=>innerWidth>900&&!matchMedia('(pointer:coarse)').matches;
 let L=0,samples=[];
 function buildThread(){
+  if(!filActif()){L=0;return}
   const W=document.documentElement.clientWidth;
   const inner=Math.min(1180,W-32),marge=(W-inner)/2;
   const xs=[Math.max(7,marge/2),W-Math.max(7,marge/2)];
@@ -892,20 +894,23 @@ function buildThread(){
   fp.setAttribute('d',d);ft.setAttribute('d',d);
   const gr=document.getElementById('fil-grad');gr.setAttribute('y1',blocs[0].top);gr.setAttribute('y2',fin);
   L=fp.getTotalLength();fp.style.strokeDasharray=L;
-  samples=[];for(let l=0;l<=L;l+=6)samples.push([l,fp.getPointAtLength(l).y]);
+  samples=[];for(let l=0;l<=L;l+=6){const pt=fp.getPointAtLength(l);samples.push([l,pt.y,pt.x])}
   stitch();
 }
 function stitch(){
-  if(!L)return;
+  enAttente=false;
+  if(!L||!samples.length)return;
   const cible=calme?Infinity:scrollY+innerHeight*.58;
-  let l=L;for(const [sl,sy] of samples){if(sy>=cible){l=sl;break}}
-  fp.style.strokeDashoffset=L-l;
-  const p=fp.getPointAtLength(l),q=fp.getPointAtLength(Math.min(L,l+3)),o=fp.getPointAtLength(Math.max(0,l-3));
-  const a=Math.atan2(q.y-o.y,q.x-o.x)*180/Math.PI;
-  needle.setAttribute('transform',`translate(${p.x},${p.y}) rotate(${a}) scale(${innerWidth>900?1.45:1})`);
+  let lo=0,hi=samples.length-1;                       // recherche rapide du point atteint
+  if(samples[hi][1]<cible)lo=hi;else while(lo<hi){const m=(lo+hi)>>1;if(samples[m][1]>=cible)hi=m;else lo=m+1}
+  const s=samples[lo],o=samples[Math.max(0,lo-1)],q=samples[Math.min(samples.length-1,lo+1)];
+  fp.style.strokeDashoffset=L-s[0];
+  const a=Math.atan2(q[1]-o[1],q[2]-o[2])*180/Math.PI;
+  needle.setAttribute('transform',`translate(${s[2]},${s[1]}) rotate(${a}) scale(1.45)`);
 }
-let tb;const rebuild=()=>{clearTimeout(tb);tb=setTimeout(buildThread,120)};
-addEventListener('scroll',()=>requestAnimationFrame(stitch),{passive:true});
+let enAttente=false;
+let tb;const rebuild=()=>{if(!filActif()){L=0;return}clearTimeout(tb);tb=setTimeout(buildThread,350)};
+addEventListener('scroll',()=>{if(L&&!enAttente){enAttente=true;requestAnimationFrame(stitch)}},{passive:true});
 addEventListener('resize',rebuild);addEventListener('load',rebuild);
 new ResizeObserver(rebuild).observe(document.querySelector('main'));
 buildThread();
