@@ -415,6 +415,29 @@ form input,form textarea,.choix-btn{background:color-mix(in srgb,var(--bg) 70%,t
 form [aria-invalid="true"]{border-color:#B4233A!important;box-shadow:0 0 0 3px color-mix(in srgb,#B4233A 18%,transparent)}
 [data-theme="dark"] form [aria-invalid="true"]{border-color:#F08A9B!important}
 form button[disabled]{opacity:.7;cursor:progress!important}
+/* AGENDA DES SALONS : des étiquettes cousues, suspendues au fil */
+.salons-liste{list-style:none;margin:0;padding:40px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,320px));justify-content:center;gap:28px;position:relative}
+.salons-liste::before{content:'';position:absolute;left:-3%;right:-3%;top:10px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--t1) 10%,var(--t2) 90%,transparent);opacity:.75}
+.salon{position:relative;text-align:center;padding:46px 26px 30px;border-radius:12px 12px 16px 16px;transform-origin:50% -30px;transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s;
+  background:linear-gradient(165deg,color-mix(in srgb,var(--accent) 14%,var(--card)) 0%,var(--card) 55%,color-mix(in srgb,var(--rose) 9%,var(--card)) 100%);
+  box-shadow:0 22px 44px -24px color-mix(in srgb,var(--accent) 60%,transparent),inset 0 1px 0 rgba(255,255,255,.35)}
+[data-theme="dark"] .salon{background:linear-gradient(165deg,color-mix(in srgb,var(--accent) 16%,var(--card)) 0%,var(--card) 60%,#160f1c 100%);box-shadow:0 22px 44px -22px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.07)}
+.salon::before{content:'';position:absolute;inset:8px;border:1.5px dashed color-mix(in srgb,var(--accent) 38%,transparent);border-radius:8px 8px 11px 11px;pointer-events:none}
+.salon::after{content:'';position:absolute;left:50%;top:-30px;width:2px;height:44px;margin-left:-1px;background:linear-gradient(var(--t1),var(--t2))}
+.salon .oeillet{position:absolute;left:50%;top:14px;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--bg);z-index:1;
+  box-shadow:0 0 0 3px #B8A9C4,0 0 0 4px rgba(0,0,0,.08),inset 0 2px 3px rgba(0,0,0,.25)}
+[data-theme="dark"] .salon .oeillet{box-shadow:0 0 0 3px #CFCED9,0 0 0 4px rgba(255,255,255,.08),inset 0 2px 3px rgba(0,0,0,.6)}
+.salon:hover{transform:rotate(-1.2deg) translateY(-3px);box-shadow:0 30px 54px -24px color-mix(in srgb,var(--accent) 70%,transparent)}
+.salon .date{padding-bottom:16px;margin-bottom:16px;border-bottom:1.5px dashed color-mix(in srgb,var(--accent) 30%,transparent)}
+.salon .date b{display:block;font:500 3rem/1 "Playfair Display",Georgia,serif;white-space:nowrap;background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+.salon .date span{display:block;margin-top:8px;font:600 .72rem Jost,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--rose)}
+.salon h3{font:500 1.3rem/1.25 "Playfair Display",Georgia,serif;margin:0 0 8px}
+.salon .lieu{margin:0;color:var(--muted);font-size:.92rem;line-height:1.45;display:inline-flex;gap:6px;align-items:flex-start;justify-content:center}
+.salon .lieu svg{flex:none;width:14px;height:14px;margin-top:3px;color:var(--rose)}
+.salon .salon-lien{display:inline-block;margin-top:16px;font:600 .72rem Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);text-decoration:none;padding-bottom:3px;border-bottom:1px solid color-mix(in srgb,var(--accent) 45%,transparent)}
+.salon .salon-lien:hover{border-bottom-color:var(--accent)}
+@media (max-width:640px){.salons-liste{gap:22px;padding-top:6px}.salons-liste::before,.salon::after{display:none}}
+@media (prefers-reduced-motion:reduce){.salon{transition:none}.salon:hover{transform:none}}
 /* FIL ROUGE */
 :root{--t1:#5A2670;--t2:#A9A7B6}
 [data-theme="dark"]{--t1:#DADAE4;--t2:#B98FD6}
@@ -680,6 +703,18 @@ label{font:500 .7rem Jost,Inter,sans-serif;letter-spacing:.14em;text-transform:u
 </section>
 
 <!-- COLLABS -->
+<!-- AGENDA DES SALONS : rempli par Angel dans son tableau Google, le site se met à jour tout seul -->
+<section class="salons" id="salons" hidden>
+  <div class="wrap">
+    <div class="head reveal in">
+      <span class="eyebrow">Agenda</span>
+      <h2>Mes prochains salons.</h2>
+      <p>Venez voir les créations de près, essayer une veste ou parler de votre projet.</p>
+    </div>
+    <ol class="salons-liste" id="salons-liste"></ol>
+  </div>
+</section>
+
 <div class="collabs">
   <div class="wrap reveal">
     <span class="eyebrow">Ils m'ont fait confiance</span>
@@ -873,8 +908,8 @@ function buildThread(){
   const W=document.documentElement.clientWidth;
   const inner=Math.min(1180,W-32),marge=(W-inner)/2;
   const xs=[Math.max(7,marge/2),W-Math.max(7,marge/2)];
-  const blocs=['.hero','.stats','#piece','#creations','#ecussons','#vitrines','#atelier','#retouche','.collabs','#apropos','.steps','#contact','footer']
-    .map(s=>document.querySelector(s)).filter(Boolean)
+  const blocs=['.hero','.stats','#piece','#creations','#ecussons','#vitrines','#atelier','#retouche','#salons','.collabs','#apropos','.steps','#contact','footer']
+    .map(s=>document.querySelector(s)).filter(el=>el&&!el.hidden)
     .map(el=>{const r=el.getBoundingClientRect();return{top:r.top+scrollY,bot:r.bottom+scrollY}});
   const fin=blocs[blocs.length-1].bot;
   fil.setAttribute('height',fin);fil.setAttribute('viewBox',`0 0 ${W} ${fin}`);fil.style.height=fin+'px';
@@ -984,6 +1019,38 @@ document.querySelectorAll('form select').forEach(sel=>{
       bouton.disabled=false;bouton.textContent=texteBouton;
     }
   });
+})();
+
+/* Agenda des salons : lit le tableau Google d'Angel (colonnes : Date, Fin, Salon, Ville, Lien). Les dates passées disparaissent toutes seules. */
+(()=>{
+  const TABLEAU='1carmXc0kulc-UHQBH5UBoOY1VLtJgA3rev3za2VDGjs'; // tableau Google « Angel Sewing — Agenda des salons » (Drive de Loïc, Angel éditrice)
+  const sec=document.getElementById('salons'),liste=document.getElementById('salons-liste');if(!sec)return;
+  const MOIS=['janv.','févr.','mars','avril','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+  const lireDate=s=>{s=(s||'').trim();let m=s.match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{2,4})$/);if(m)return new Date(+(m[3].length===2?'20'+m[3]:m[3]),m[2]-1,+m[1]);
+    m=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);return m?new Date(+m[1],m[2]-1,+m[3]):null};
+  const csv=t=>{const L=[];let l=[],c='',q=false;for(let i=0;i<t.length;i++){const k=t[i];if(q){if(k==='"'){if(t[i+1]==='"'){c+='"';i++}else q=false}else c+=k}
+    else if(k==='"')q=true;else if(k===','){l.push(c);c=''}else if(k==='\n'){l.push(c);L.push(l);l=[];c=''}else if(k!=='\r')c+=k}l.push(c);L.push(l);return L};
+  const txt=s=>{const d=document.createElement('div');d.textContent=s||'';return d.innerHTML};
+  const afficher=lignes=>{
+    const auj=new Date();auj.setHours(0,0,0,0);
+    const S=lignes.map(l=>({d:lireDate(l[0]),f:lireDate(l[1]),nom:(l[2]||'').trim(),ville:(l[3]||'').trim(),lien:(l[4]||'').trim()}))
+      .filter(s=>s.d&&s.nom&&(s.f||s.d)>=auj).sort((a,b)=>a.d-b.d).slice(0,9);
+    if(!S.length){sec.hidden=true;return}
+    liste.innerHTML=S.map(s=>{
+      const plusieurs=s.f&&s.f>s.d,memeMois=plusieurs&&s.d.getMonth()===s.f.getMonth();
+      const jour=plusieurs?(memeMois?s.d.getDate()+'–'+s.f.getDate():s.d.getDate()+'→'+s.f.getDate()):String(s.d.getDate());
+      const mois=(plusieurs&&!memeMois?MOIS[s.d.getMonth()]+' – ':'')+MOIS[(plusieurs?s.f:s.d).getMonth()]+' '+(plusieurs?s.f:s.d).getFullYear();
+      const lien=/^https?:\/\//.test(s.lien)?'<a href="'+txt(s.lien)+'" target="_blank" rel="noopener">Voir le salon →</a>':'';
+      const pin='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s7-7.1 7-12.5A7 7 0 0 0 5 9.5C5 14.9 12 22 12 22z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+      const lienSalon=lien?lien.replace('<a ','<a class="salon-lien" ').replace('Voir le salon →','Voir le salon'):'';
+      return '<li class="salon"><span class="oeillet" aria-hidden="true"></span><div class="date"><b>'+jour+'</b><span>'+mois+'</span></div><h3>'+txt(s.nom)+'</h3><p class="lieu">'+pin+'<span>'+txt(s.ville)+'</span></p>'+lienSalon+'</li>'}).join('');
+    sec.hidden=false;
+  };
+  if(new URLSearchParams(location.search).get('agenda')==='essai'){
+    const a=new Date(),j=n=>{const d=new Date(a);d.setDate(d.getDate()+n);return d.toLocaleDateString('fr-FR')};
+    afficher([[j(12),j(13),'Salon Fantastique','Paris, Espace Champerret','https://example.org'],[j(40),'','Convention Stargate','Lyon',''],[j(75),j(77),'Japan Expo Sud','Marseille, Parc Chanot','https://example.org'],[j(-5),'','Salon déjà passé','Dijon','']]);return}
+  if(!TABLEAU)return;
+  fetch('https://docs.google.com/spreadsheets/d/'+TABLEAU+'/gviz/tq?tqx=out:csv&headers=1').then(r=>r.ok?r.text():'').then(t=>{if(t)afficher(csv(t).slice(1))}).catch(()=>{});
 })();
 
 /* Apparitions */
